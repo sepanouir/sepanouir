@@ -4,7 +4,7 @@ import datetime
 from io import BytesIO
 from itertools import groupby
 from .forms import *
-
+from sqlalchemy import desc
 def conv(d):
 	print(d)
 	y,m,d=[int(i) for i in d.split('T')[0].split('-')]
@@ -71,7 +71,7 @@ def data0(name):
 	'Med':'Réseau des médecines'
 	}
 	name=str.capitalize(name)
-	table = eval(f'{name}.data_list({name}.query.all())')
+	table = eval(f'{name}.data_list({name}.query.order_by({name}.id).all())')
 	head=table.pop(0)
 	if name=='Item':
 		return redirect(url_for('sep_admin.Home'))
@@ -95,7 +95,7 @@ def data1(name):
 	print(name)
 	section=Section.getSection(name)
 	id_=section.id
-	table = Item.data_list(Item.query.filter_by(section_id=id_).all())
+	table = Item.data_list(Item.query.filter_by(section_id=id_).order_by(Item.id).all())
 	head=table.pop(0)
 	replace={'pic':'image','vid':'video'}
 	head=[replace[i] if i in replace.keys() else i for i in head]
@@ -120,6 +120,27 @@ def edit(table,id=0):
 	item=eval(f'{table}.query.filter_by(id=id).first()')
 	form = forms[table](obj=item)
 	return render_template('edit.html', form=form,id=id,name=table,redirect=url_for(d,name=t))
+
+@admin.route('/delete/<table>/<int:id>/<media>')
+def deleteVid(table,id,media):
+	item = eval(f'{table}.query.filter_by(id=id).first()')
+	if media == 'vid':
+		item.vid=None
+		item.vid_name=None
+	if media == 'pic':
+		item.pic=None
+		item.pic_name=None	
+	db.session.commit()
+	if table == 'Activity':
+		return redirect('/sep_admin/data/'+table)
+	if table == 'User':
+		return redirect('/sep_admin/data/'+table)
+	if table in forms.keys() and table!='Item':
+		return redirect('/sep_admin/data/'+table)
+	else:
+		item=Item.query.filter_by(id=id).first()
+		section_name=Section.query.filter_by(id=item.section_id).first().name
+		return redirect('/sep_admin/data-section/'+section_name)
 
 @admin.route('/delete/<table>/<int:id>')
 def delete(table,id):

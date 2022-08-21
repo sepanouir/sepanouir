@@ -5,7 +5,7 @@ from config import ProductionConfig
 app=create_app(ProductionConfig)
 
 with app.app_context():
-	user = User.query.first()
-	print(user)
+	user = Admin.query.first()
+	print(user.email)
 	print(user.password)
 

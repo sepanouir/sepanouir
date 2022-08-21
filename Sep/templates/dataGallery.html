@@ -97,14 +97,16 @@
               {% if d[2]!=None %}
 
               <img src="/api/download/Activity_gallery/{{d[1]}}/img"  width="320" height="240">
+              <a href="/sep_admin/delete/Activity_gallery/{{d[0]}}/pic">supprimer</a>
               {% endif %}
               
             </td>
-            <td>
+            <td style="flex-direction: row;display: flex;align-items: center;">
               {% if d[4]!=None %}
               <video width="320" height="240" controls>
                 <source src="/api/download/Activity_gallery/{{d[1]}}/vid" type="video/mp4">
               </video>
+                <a href="/sep_admin/delete/Activity_gallery/{{d[0]}}/vid">supprimer</a>
               {% endif %}
             </td>
           </tr>
