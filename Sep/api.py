@@ -4,7 +4,8 @@ from sqlalchemy import func
 import datetime
 from io import BytesIO
 from itertools import groupby
-from .mail import send_email_Activity,send_contact,send_Res_med
+# from .mail import send_email_Activity,send_contact,send_Res_med
+from .mail import send_email
 from .cities import data
 from .forms import *
 import jwt
@@ -14,6 +15,7 @@ from config import ProductionConfig
 from functools import wraps
 import csv
 from werkzeug.utils import secure_filename
+from .tools import generate, check_email
 api=Blueprint('api','__name__',url_prefix='/api')
 attend='attend'
 actif='actif'
@@ -194,13 +196,13 @@ def exit_act(user_id,activity_id):
 		new_user= Activity_user(user_id=user_attend.user_id, activity_id=activity_id, state=actif)
 		db.session.delete(user_attend)
 		db.session.add(new_user)
-		send_email_Activity('ent', User.query.filter_by(id=new_user.user_id).first().public_id, a1)
+		# send_email_Activity('ent', User.query.filter_by(id=new_user.user_id).first().public_id, a1)
 		# print('ent', User.query.filter_by(id=new_user.user_id).first().public_id, a1)
 	except Exception as e:
 		print('delete actif')
 		db.session.delete(user_actif)
 	print('ext', u1, a1)
-	send_email_Activity('ext', u1, a1)
+	# send_email_Activity('ext', u1, a1)
 	db.session.commit()
 	return jsonify({"message":"seccus"})
 
@@ -472,6 +474,14 @@ def checkEmail(email):
 	user = user_[0] if len(user_)>0 else []
 	if user :
 		return jsonify({'message':False})
+	try:
+		isvalid=check_email(email,config.MAIL_CHECK_API_KEY)
+		if(isvalid):
+			return jsonify({'message' : True})
+		else:
+			return jsonify({'message':"Addresse mail n'exist pas" })
+	except Exception as e:
+		return jsonify({'message':e})
 	return jsonify({'message' : True})
 
 @api.route('/getToken_from_app',methods=['GET'])
@@ -479,6 +489,25 @@ def getToken_from_app():
 	token = jwt.encode({'id' : 'test'}, ProductionConfig.SECRET_KEY, algorithm="HS256")
 	return jsonify({'message':token})
 # getToken_from_app
+
+# @api.route('/hello',methods=['GET'])
+# def hello():
+# 	print(request.values['name'])
+
+# 	return jsonify({"message":"hhhhhhhh"})
+# @api.route('/activateUser/<user_id>',methods=['GET'])
+# def getToken_from_app(user_id):
+# 	token = jwt.encode({'id' : 'user_id'}, ProductionConfig.SECRET_KEY, algorithm="HS256")
+# 	return jsonify({'message':token})
+
+@api.route('/resetPassword/<email>/<recovery>',methods=['GET'])
+def resetPassword(email,recovery):
+	user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
+	if user:
+		user = user if user.recovery==recovery else None
+	if user :
+		return jsonify({'message':True})
+	return jsonify({'message':False})
 
 @api.route('/setUser/<email>/<password>',methods=['GET'])
 @token_required	
@@ -525,7 +554,10 @@ def getUser(email,password):
 			'password' :user.password,
 			'auth' :user.auth,
 			'sep' :user.sep,
-			'token':token
+			'active':user.active,
+			'recovery':user.recovery,
+			'token':token,
+
 		})
 	return jsonify({'message' : 'Token is invalid!'})
 # grand_ville
@@ -585,10 +617,27 @@ def getCities():
 
 
 
-@api.route('/getValue/<key>',methods=['GET'])
-def getVlaue(key):
-	item= Constants.query.filter_by(nom=key).first()
-	return jsonify({'value':item.valeur})
+
+@api.route('/activeUser',methods=['GET'])
+def activeUser():
+	try:
+		token = request.values['token']
+		if token==None:
+			return jsonify({'message' : 'Token is missing!'}), 401
+		try: 
+			data = jwt.decode(token,ProductionConfig.SECRET_KEY, algorithms=["HS256"])
+			user=User.query.filter_by(public_id=data['id']).first()
+			user.active=True
+			db.session.commit()
+			return jsonify({'message':True})
+		except:
+			return jsonify({'message' : 'Token is invalid!'}), 401
+
+	except:
+		return jsonify({'message':'An Error Occured'})
+
+
+
 
 @api.route('/users/',methods=['POST'])
 def users_post():
@@ -612,14 +661,20 @@ def users_post():
     password =data['password'],
     auth =data['auth'],
     sep=data['sep'],
-    viewed=False
-		)
+    viewed=False,
+    active=False,
+    recovery=generate()
+	)
 	db.session.add(u)
 	db.session.commit()
-	print({'message':True})
-	return jsonify({'message':True})
-	# except Exception as e:
-	# 	return jsonify({'message':False})
+	try:
+		token=jwt.encode({'id' : str(u.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
+		url = request.base_url.split('/api')[0]+url_for('api.activeUser')+"?token="+token
+		return send_email(u.email,url,u.recovery)
+	except:
+		return jsonify({'message':"Une erreur s'est produite lors de l'envoi de code de vérification"})
+
+
 
 
 @api.route('/users/<user_id>',methods=['DELETE'])

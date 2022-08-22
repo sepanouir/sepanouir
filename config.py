@@ -54,7 +54,8 @@ class Config(object):
 class ProductionConfig(Config):
 	MAIL_PASSWORD = 'gexxrmihlbqnhxfn'
 	MAIL_USERNAME = 'sepanouir.maroc@gmail.com'
-	SECRET_KEY = 'kjsgjgfdskhgfdskhgfksgkfqgkfq'	
+	SECRET_KEY = 'kjsgjgfdskhgfdskhgfksgkfqgkfq'
+	MAIL_CHECK_API_KEY='57a4d05d-7095-4a6c-8a35-35fd9c4b4d8f'	
 
 # sepanouir.amdin@gmail.com
 
