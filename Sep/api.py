@@ -475,13 +475,13 @@ def checkEmail(email):
 	if user :
 		return jsonify({'message':False})
 	try:
-		isvalid=check_email(email,config.MAIL_CHECK_API_KEY)
+		isvalid=check_email(str(email),str(ProductionConfig.MAIL_CHECK_API_KEY))
 		if(isvalid):
 			return jsonify({'message' : True})
 		else:
 			return jsonify({'message':"Addresse mail n'exist pas" })
 	except Exception as e:
-		return jsonify({'message':e})
+		return jsonify({'message':str(e)})
 	return jsonify({'message' : True})
 
 @api.route('/getToken_from_app',methods=['GET'])
