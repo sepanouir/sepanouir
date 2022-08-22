@@ -7,7 +7,6 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 from .create_db import create
-from flask_migrate import Migrate
 
 def create_app(config):
 	app=Flask(__name__)
@@ -28,7 +27,6 @@ def create_app(config):
 	mail.init_app(app)
 	Bootstrap(app)
 	CORS(app)
-	Migrate(app,db)
 	# sysAdmin.init_app(app)
 
 	return app

@@ -17,4 +17,3 @@ wtforms
 flask_mail
 pyjwt
 email_validator
-flask_migrate
