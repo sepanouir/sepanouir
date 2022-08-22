@@ -563,6 +563,8 @@ def getUser(email,password):
 	user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
 	if user:
 		user = user if user.password==password else None
+	else:
+		return jsonify({'message' : 404})
 	if user :
 		token = jwt.encode({'id' : str(user.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
 		return jsonify({
