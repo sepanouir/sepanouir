@@ -31,7 +31,7 @@ class Config(object):
 	SESSION_COOKIE_HTTPONLY = True
 	SESSION_COOKIE_SAMESITE = 'None'
 	MAIL_SERVER = 'smtp.gmail.com'
-	MAIL_PORT = 465
+	MAIL_PORT = 465 
 	MAIL_USE_TLS = False
 	MAIL_USE_SSL = True 
 	
