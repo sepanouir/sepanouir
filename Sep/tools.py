@@ -24,4 +24,4 @@ def check_email(email,apikey):
 	elif status == "invalid":
 		return False
 	else:
-		raise Exception("Un problème au niveau du serveur s'est produit, veuillez réessayer plus tard")
+		raise Exception(401)

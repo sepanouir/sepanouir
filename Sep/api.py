@@ -479,9 +479,9 @@ def checkEmail(email):
 		if(isvalid):
 			return jsonify({'message' : True})
 		else:
-			return jsonify({'message':"Addresse mail n'exist pas" })
+			return jsonify({'message':400 })
 	except Exception as e:
-		return jsonify({'message':str(e)})
+		return jsonify({'message':e})
 	return jsonify({'message' : True})
 
 @api.route('/getToken_from_app',methods=['GET'])
@@ -667,12 +667,9 @@ def users_post():
 	)
 	db.session.add(u)
 	db.session.commit()
-	try:
-		token=jwt.encode({'id' : str(u.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
-		url = request.base_url.split('/api')[0]+url_for('api.activeUser')+"?token="+token
-		return send_email(u.email,url,u.recovery)
-	except:
-		return jsonify({'message':"Une erreur s'est produite lors de l'envoi de code de vérification"})
+	token=jwt.encode({'id' : str(u.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
+	url = request.base_url.split('/api')[0]+url_for('api.activeUser')+"?token="+token
+	return send_email(u.email,url,u.recovery)
 
 
 
