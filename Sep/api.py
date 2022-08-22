@@ -1,5 +1,5 @@
 from .models import *
-from flask import request,Blueprint,jsonify,send_file,redirect,url_for,render_template,session
+from flask import request,Blueprint,jsonify,send_file,redirect,url_for,render_template,session,Response
 from sqlalchemy import func
 import datetime
 from io import BytesIO
@@ -466,9 +466,37 @@ def download(table,id,type_):
 		return send_file(BytesIO(ag.pic), attachment_filename=ag.pic_name)
 	return send_file(BytesIO(ag.vid), attachment_filename=ag.vid_name)
 
+@api.route('/downloadCsv')
+def downloadCsv():
+	users = User.query.all()
+	# header = ['name', 'area', 'country_code2', 'country_code3']
+	# data = ['Afghanistan', 652090, 'AF', 'AFG']
+	data=User.data_list(User.query.order_by(User.id).all())
+	dd=[[str(i) for i in row[1:]] for row in data]
+
+	test = lambda d: ''.join([i if i in [chr(32+i) for i in range(95)] else 'e' for i in d])
+	csv='\n'.join([';'.join([test(j) for j in i]) for i in dd])
+
+	return Response(
+	csv,
+	mimetype="text/csv",
+	headers={"Content-disposition":
+	"attachment; filename=myplot.csv"})
+	# return send_file(BytesIO(f), attachment_filename='data.csv')
+
  # *************************** User handler *****************************
-@api.route('/getUser/<email>',methods=['GET'])
-def checkEmail(email):
+
+# @api.route('/checkEmail/<email>',methods=['GET'])# return true if email exist
+# def checkEmail(email):
+# 	users = User.query.all()
+# 	user_ = [i for i in users if i.email.upper()==email.upper()]
+# 	user = user_[0] if len(user_)>0 else []
+# 	if user :
+# 		return jsonify({'message':True})
+# 	return jsonify({'message' : False})
+
+@api.route('/getUserEmail/<email>',methods=['GET'])
+def getUserEmail(email):
 	users = User.query.all()
 	user_ = [i for i in users if i.email.upper()==email.upper()]
 	user = user_[0] if len(user_)>0 else []
@@ -490,9 +518,10 @@ def getToken_from_app():
 	return jsonify({'message':token})
 # getToken_from_app
 
-# @api.route('/hello',methods=['GET'])
-# def hello():
-# 	print(request.values['name'])
+@api.route('/comfirmation',methods=['GET'])
+def hello():
+	user = User.query.first()
+	return render_template("activatedAccount.html",user=user)
 
 # 	return jsonify({"message":"hhhhhhhh"})
 # @api.route('/activateUser/<user_id>',methods=['GET'])
@@ -506,7 +535,8 @@ def resetPassword(email,recovery):
 	if user:
 		user = user if user.recovery==recovery else None
 	if user :
-		return jsonify({'message':True})
+		token = jwt.encode({'id' : str(user.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
+		return jsonify({'message':True,'token':token})
 	return jsonify({'message':False})
 
 @api.route('/setUser/<email>/<password>',methods=['GET'])
@@ -669,8 +699,11 @@ def users_post():
 	db.session.commit()
 	token=jwt.encode({'id' : str(u.public_id)}, ProductionConfig.SECRET_KEY, algorithm="HS256")
 	url = request.base_url.split('/api')[0]+url_for('api.activeUser')+"?token="+token
-	return send_email(u.email,url,u.recovery)
-
+	sended= send_email(u.email,url,u.recovery)
+	if (not(sended)):
+		db.session.delete(u)
+		db.session.commit()
+	return sended
 
 
 

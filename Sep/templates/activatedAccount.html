@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sepanouir</title>
+</head>
+<body>
+	<img src="{{ url_for('static',filename='/img/sep.jpg')}}" height="200" width="200">
+	<h4>Nous vous informons que votre compte a été activé, vous pouvez utiliser l'application sans aucune restriction</h4>
+	<h5> Le nom : {{user.prenom}} {{user.nom}}</h5>
+	<h5> Email : {{user.email}}</h5>
+	<h4>Merci,</h4>
+	<h4>L'équipe SEPanouir</h4>
+</body>
+</html>
+
+<style type="text/css">
+	body{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		height: 100vh;
+	}
+	*{
+		font-family: sans-serif;
+	}
+</style>

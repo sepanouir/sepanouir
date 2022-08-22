@@ -132,6 +132,11 @@
     </form>
   </div>
   {% endif %}
+  {% if final_name=='utilisateurs' %}
+  <a href="/api/downloadCsv">
+    <button style="background-color: #619BCC;padding: 5px 8px;border-radius: 5px;color: white;margin: 5px">Exporter tant que CSV</button>
+  </a>
+  {% endif %}
   <a class="btn" href="/sep_admin/add/{{name}}">
     <div style="background-color: #619BCC;padding: 5px 8px;border-radius: 5px;color: white;margin: 5px">+ Ajouter</div>
   </a>
