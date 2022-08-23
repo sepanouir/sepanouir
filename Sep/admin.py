@@ -63,6 +63,16 @@ def view(table,id):
 	db.session.commit()
 	return redirect(url_for('sep_admin.Home'))
 
+@admin.route('/ActivityUsers/<int:activity_id>',methods=['GET'])
+def ActivityUsers(activity_id):
+	act = Activity.query.filter_by(id=activity_id).first()
+	users=[User.query.filter_by(id=u.user_id).first() for u in Activity_user.query.filter_by(activity_id=activity_id,state=actif)]
+	data=[[user.prenom+" "+user.nom,user.grand_ville,user.email]
+		for user in users]
+	header=['Nom','Ville','email']
+	return render_template('ActivityUser.html',header=header,data=data,act_name=act.name)
+
+
 @admin.route('/data/<string:name>',methods=['GET'])
 def data0(name):
 	final_name={
@@ -73,6 +83,22 @@ def data0(name):
 	name=str.capitalize(name)
 	table = eval(f'{name}.data_list({name}.query.order_by({name}.id).all())')
 	head=table.pop(0)
+	if name=='Activity':
+		table=[
+			[
+				len(Activity_user.query.filter_by(activity_id=act.id,state=actif).all()),
+				act.id,
+				act.name,
+				act.date,
+				act.heure,
+				act.members,
+				act.details,
+				act.city,
+				act.sep
+
+			]
+			for act in Activity.query.order_by(Activity.id).all()]
+		return render_template('dataActivity.html',data=table,name=name,update=lambda x:x[2:])
 	if name=='Item':
 		return redirect(url_for('sep_admin.Home'))
 	if name=='Activity_gallery':

@@ -595,7 +595,7 @@ def getUser(email,password):
 # grand_ville
 @api.route('/getUsers',methods=['GET'])
 def allUsers():
-	users= User.query.filter_by(sep=True).all()
+	users= User.query.filter_by(sep=True,active=True).all()
 	def get(city):
 		d=[i for i in data if i['name'].lower()==city.lower()]
 		if d:
