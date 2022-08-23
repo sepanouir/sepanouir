@@ -108,9 +108,26 @@
 # print(''.join([i if d!='é' else 'e' for i in d]))
 
 
-T=[4,1,5,7,8,9,3]
+# T=[4,1,5,7,8,9,3]
 
 
 
-print(T.insert(0, 0))
-print(T) 
+# print(T.insert(0, 0))
+# print(T) 
+
+
+from Sep import *
+from config import ProductionConfig
+app =create_app(ProductionConfig)
+print()
+with app.app_context():
+	users = User.query.all()
+	for user in users:
+		user.active=True
+		user.recovery=generate()
+	db.session.commit()
+	print('done')
+
+
+
+

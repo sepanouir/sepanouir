@@ -69,6 +69,7 @@ def ActivityUsers(activity_id):
 	users=[User.query.filter_by(id=u.user_id).first() for u in Activity_user.query.filter_by(activity_id=activity_id,state=actif)]
 	data=[[user.prenom+" "+user.nom,user.grand_ville,user.email]
 		for user in users]
+	data.sort(keys=lambda x : x[1])
 	header=['Nom','Ville','email']
 	return render_template('ActivityUser.html',header=header,data=data,act_name=act.name)
 

@@ -7,7 +7,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 from .create_db import create
-
+from .tools import generate
 def create_app(config):
 	app=Flask(__name__)
 	app.config.from_object(config)
