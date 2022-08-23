@@ -495,7 +495,7 @@ def downloadCsv():
 # 		return jsonify({'message':True})
 # 	return jsonify({'message' : False})
 
-@api.route('/getUserEmail/<email>',methods=['GET'])
+@api.route('/getUser/<email>',methods=['GET'])
 def getUserEmail(email):
 	users = User.query.all()
 	user_ = [i for i in users if i.email.upper()==email.upper()]
@@ -661,7 +661,7 @@ def activeUser():
 			user=User.query.filter_by(public_id=data['id']).first()
 			user.active=True
 			db.session.commit()
-			return jsonify({'message':True})
+			return render_template("activatedAccount.html",user=user)
 		except:
 			return jsonify({'message' : 'Token is invalid!'}), 401
 
