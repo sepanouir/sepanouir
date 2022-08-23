@@ -162,7 +162,7 @@ def submit_act():
 	db.session.add(au)
 	db.session.commit()
 	# if au.state==actif:
-		
+
 		# return redirect(url_for('ma.send_email_Activities',tpe='ent',user_id=data['user_id'],activity_id=data['activity_id']))
 	return jsonify({"message":"seccus"})
 

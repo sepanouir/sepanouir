@@ -116,18 +116,21 @@
 # print(T) 
 
 
-from Sep import *
-from config import ProductionConfig
-app =create_app(ProductionConfig)
-print()
-with app.app_context():
-	users = User.query.all()
-	for user in users:
-		user.active=True
-		user.recovery=generate()
-	db.session.commit()
-	print('done')
+# from Sep import *
+# from config import ProductionConfig
+# app =create_app(ProductionConfig)
+# print()
+# with app.app_context():
+# 	users = User.query.all()
+# 	for user in users:
+# 		user.active=True
+# 		user.recovery=generate()
+# 	db.session.commit()
+# 	print('done')
 
 
 
+# import datetime
+
+# print(datetime.deltatime())
 
