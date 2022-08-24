@@ -10,6 +10,8 @@ attend='attend'
 actif='actif'
 db=SQLAlchemy()
 
+def date(date,time):
+    return datetime.datetime(year=date.year, month=date.month, day=date.day,hour=time.hour,minute=time.minute)
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
@@ -83,16 +85,16 @@ class User(db.Model,Serializer):
         return None
 
     def getActivtyAvenir(self):
-        current_time = datetime.datetime.utcnow().date()
+        current_time = datetime.datetime.utcnow()
         acts_users = Activity_user.query.filter_by(user_id=self.id).all()
         acts = [Activity.getActivitybyid(act.activity_id) for act in acts_users ]#if act.date >current_time]
-        return [act for act in acts if act.date > current_time]
+        return [act for act in acts if date(act.date,act.heure) > current_time-datetime.timedelta(days=1)]
 
     def getActivtyPrecedent(self):
-        current_time = datetime.datetime.utcnow().date()
+        current_time = datetime.datetime.utcnow()
         acts_users = Activity_user.query.filter_by(user_id=self.id).all()
-        acts = [Activity.getActivitybyid(act.activity_id) for act in acts_users ]#if act.date >current_time]
-        return [act for act in acts if act.date <= current_time]
+        acts = [Activity.getActivitybyid(act.activity_id) for act in acts_users ]#if date(act.date,act.heure) >current_time]
+        return [act for act in acts if date(act.date,act.heure) <= current_time-datetime.timedelta(days=1)]
 
 
 class Activity(db.Model,Serializer):

@@ -15,9 +15,9 @@ def send_email(email,url,check):
 		msg = Msg("Bienvenue dans l'application SEPanouir", sender='sepanouir.admin@gmail.com', recipients=[email])
 		msg.html = render_template('mailConfirmation.html',code=check,email=email,url=url)
 		mail.send(msg)
-		return jsonify({'message':True})
+		return True #jsonify({'message':True})
 	except:
-		return jsonify({'message':False})
+		return False #jsonify({'message':False})
 
 
 @ma.route('/send_email/activity/<tpe>/<user_id>/<activity_id>',methods=['GET'])

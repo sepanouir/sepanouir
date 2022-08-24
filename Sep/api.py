@@ -226,15 +226,19 @@ def all_act_pic():
 		} for i,act_id in glo])
 
 
-
+def date(date,time):
+	return datetime.datetime(year=date.year, month=date.month, day=date.day,hour=time.hour,minute=time.minute)
 
 @api.route('/all_act/',methods=['GET'])
 def all_acts():
-	current_time = datetime.datetime.utcnow().date()
-	acts = [i for i in Activity.query.all() if i.date > current_time+datetime.timedelta(days = 1)-datetime.timedelta(hours=i.heure.hour,
-				minutes=i.heure.minute)]
+	current_time = datetime.datetime.utcnow()
+	for i in Activity.query.all():
+		print(date(i.date,i.heure))
+		print(current_time+datetime.timedelta(days=1))
+		print(date(i.date,i.heure)<current_time+datetime.timedelta(days=1))
+	acts = [i for i in Activity.query.all() if date(i.date,i.heure) > current_time]
+	# acts = Activity.query.all()
 	acts.sort(key=lambda ac : ac.date)
-	current_time = datetime.datetime.utcnow().date()
 	glo = [[ 
 		{
 			'public_id':str(act.public_id),
@@ -248,8 +252,7 @@ def all_acts():
 			'sep':act.sep,
 			'state':attend if act.getAttend() > 0 else actif,
 			'submit':False,
-			'can_submit':act.date> current_time+datetime.timedelta(days = 1)-datetime.timedelta(hours=act.heure.hour,
-				minutes=act.heure.minute)
+			'can_submit':date(act.date,act.heure) > current_time+datetime.timedelta(days=1)
 		}
 
 	for act in g] for k,g in groupby(acts,key=lambda x : x.date)]
@@ -646,6 +649,23 @@ def allUsers():
 	# return jsonify(out)
 @api.route('/getCities',methods=['GET'])
 def getCities():
+	activites = Activity.query.all()
+	acts_user = [i for i in activites if date(i.date,i.heure)<datetime.datetime.utcnow()-datetime.timedelta(days = 4)]
+	print(acts_user)
+	for act in acts_user:
+		Activity_user.query.filter_by(activity_id=act.id).delete()
+		# db.session.delete(act)
+	db.session.commit()
+	acts_gallery = [i for i in activites if date(i.date,i.heure)<datetime.datetime.utcnow()-datetime.timedelta(days = 40)]
+	print(acts_gallery)
+	for act in acts_gallery:
+		Activity_gallery.query.filter_by(activity_id=act.id).delete()
+		db.session.delete(act)
+	db.session.commit()
+
+
+
+
 	return jsonify([i['name'] for i in data])
 
 
