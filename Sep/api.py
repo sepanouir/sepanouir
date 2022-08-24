@@ -232,10 +232,10 @@ def date(date,time):
 @api.route('/all_act/',methods=['GET'])
 def all_acts():
 	current_time = datetime.datetime.utcnow()
-	for i in Activity.query.all():
-		print(date(i.date,i.heure))
-		print(current_time+datetime.timedelta(days=1))
-		print(date(i.date,i.heure)<current_time+datetime.timedelta(days=1))
+	# for i in Activity.query.all():
+	# 	print(date(i.date,i.heure))
+	# 	print(current_time+datetime.timedelta(days=1))
+	# 	print(date(i.date,i.heure)<current_time+datetime.timedelta(days=1))
 	acts = [i for i in Activity.query.all() if date(i.date,i.heure) > current_time]
 	# acts = Activity.query.all()
 	acts.sort(key=lambda ac : ac.date)
@@ -263,8 +263,7 @@ def all_acts():
 def all_act(user_id):
 	current_time = datetime.datetime.utcnow().date()
 	user=User.getUser(user_id)
-	acts = [i for i in Activity.query.all() if i.date > current_time+datetime.timedelta(days = 1)-datetime.timedelta(hours=i.heure.hour,
-				minutes=i.heure.minute)]
+	acts = [i for i in Activity.query.all() if date(i.date,i.heure) > current_time]
 	acts.sort(key=lambda ac : ac.date)
 	glo = [[ 
 		{
@@ -279,7 +278,8 @@ def all_act(user_id):
 			'sep':act.sep,
 			'state':act.getStatus(user.id),
 			'submit':act.getSubmit(user.id),
-			'can_submit':not(act.sep and not(user.sep))
+			'can_submit':date(act.date,act.heure) > current_time+datetime.timedelta(days=1),
+			'Ressep':not(act.sep and not(user.sep))
 
 		}
 
@@ -294,7 +294,7 @@ def my_act0():
 		})
 @api.route('/my_act/<user_id>',methods=['GET'])
 def my_act(user_id):
-	current_time = datetime.datetime.utcnow().date()
+	current_time = datetime.datetime.utcnow()
 	user=User.getUser(user_id)
 	return jsonify({
 		"next":[
@@ -309,7 +309,7 @@ def my_act(user_id):
 			'city':act.city,
 			'state':act.getStatus(user.id),
 			'submit':act.getSubmit(user.id),
-			'can_submit':act.date > current_time+datetime.timedelta(days = 1)
+			'can_submit':date(act.date,act.heure) > current_time+datetime.timedelta(days = 1)
 		}
 		for act in user.getActivtyAvenir()],
 		"prev":[
@@ -656,7 +656,7 @@ def getCities():
 		Activity_user.query.filter_by(activity_id=act.id).delete()
 		# db.session.delete(act)
 	db.session.commit()
-	acts_gallery = [i for i in activites if date(i.date,i.heure)<datetime.datetime.utcnow()-datetime.timedelta(days = 40)]
+	acts_gallery = [i for i in activites if date(i.date,i.heure)<datetime.datetime.utcnow()-datetime.timedelta(days = 360)]
 	print(acts_gallery)
 	for act in acts_gallery:
 		Activity_gallery.query.filter_by(activity_id=act.id).delete()
