@@ -261,7 +261,7 @@ def all_acts():
 
 @api.route('/all_act/<user_id>',methods=['GET'])
 def all_act(user_id):
-	current_time = datetime.datetime.utcnow().date()
+	current_time = datetime.datetime.utcnow()
 	user=User.getUser(user_id)
 	acts = [i for i in Activity.query.all() if date(i.date,i.heure) > current_time]
 	acts.sort(key=lambda ac : ac.date)
