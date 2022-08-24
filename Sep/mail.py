@@ -9,7 +9,7 @@ def conv(o):
 	return "{} {}".format(o.day, T[o.month-1])
 
 
-@ma.route('/send_email/<email>/<url>/<check>',methods=['GET'])
+# @ma.route('/send_email/<email>/<url>/<check>',methods=['GET'])
 def send_email(email,url,check):
 	try :
 		msg = Msg("Bienvenue dans l'application SEPanouir", sender='sepanouir.admin@gmail.com', recipients=[email])

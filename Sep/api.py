@@ -726,8 +726,7 @@ def users_post():
 	if (not(sended)):
 		db.session.delete(u)
 		db.session.commit()
-	return sended
-
+	return jsonify({'message':sended})
 
 
 @api.route('/users/<user_id>',methods=['DELETE'])
