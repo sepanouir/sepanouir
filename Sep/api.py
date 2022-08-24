@@ -311,7 +311,7 @@ def my_act(user_id):
 			'submit':act.getSubmit(user.id),
 			'can_submit':date(act.date,act.heure) > current_time+datetime.timedelta(days = 1)
 		}
-		for act in user.getActivtyAvenir()],
+		for act in user.getActivtyAvenir() if date(act.date,act.heure) > current_time+datetime.timedelta(days = 1) or act.getStatus(user.id)==actif ],
 		"prev":[
 		{
 			'public_id':str(act.public_id),
