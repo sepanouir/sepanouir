@@ -92,7 +92,7 @@ class User(db.Model,Serializer):
 
     def getActivtyPrecedent(self):
         current_time = datetime.datetime.utcnow()
-        acts_users = Activity_user.query.filter_by(user_id=self.id).all()
+        acts_users = Activity_user.query.filter_by(user_id=self.id,state=actif).all()
         acts = [Activity.getActivitybyid(act.activity_id) for act in acts_users ]#if date(act.date,act.heure) >current_time]
         return [act for act in acts if date(act.date,act.heure) <= current_time-datetime.timedelta(days=1)]
 
