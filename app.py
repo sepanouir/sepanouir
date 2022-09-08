@@ -8,7 +8,6 @@ from Sep.mail import mail,send_email_Activity
 from flask import Flask, jsonify,request,session,redirect,url_for,render_template
 from config import ProductionConfig
 
-
 app=create_app(ProductionConfig)
 
 

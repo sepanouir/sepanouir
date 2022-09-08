@@ -1,4 +1,5 @@
 from .models import *
+# from .models1 import *
 from .forms import *
 from .api import api
 from .mail import mail,ma
@@ -17,7 +18,7 @@ def create_app(config):
 	app.register_blueprint(api)
 	app.register_blueprint(admin)
 	app.register_blueprint(ma)
-
+	# app.config['SQLALCHEMY_BINDS']={'recovery':"sqlite:///test.db"}
 	@app.route('/',methods=['GET'])
 	def home():
 		return redirect(url_for('api.login'))

@@ -20,7 +20,7 @@
 
 # db_uri = "sqlite:///test.db"
 # db_uri = 'postgresql://hjzwqdyjsxpthd:a813015534804b1006718d69bfe179d1c1129b0fada39a5ab56f7eec399a8455@ec2-63-34-180-86.eu-west-1.compute.amazonaws.com:5432/dejf3cqd8mhfeh'
-db_uri = 'postgresql://qjnalnuazssqvi:023f9010c56517b9b21256037d426b001c8991a3d1263e12897029d2b5baf1d4@ec2-54-228-32-29.eu-west-1.compute.amazonaws.com:5432/dc094emgdtk9t7'
+db_uri = 'postgres://dlqmpeecuezmmv:3f56fb7a8abf98b6bf509f39a835e2ca95eaf741225224e8c0d858a0b3897e1f@ec2-34-252-35-249.eu-west-1.compute.amazonaws.com:5432/dcofgr35drvp5o'
 class Config(object):
 	DEBUG = True
 	TESTING = False

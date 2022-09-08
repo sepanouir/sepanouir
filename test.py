@@ -1,136 +1,45 @@
-# from Sep import *
-# from config import ProductionConfig
+from Sep import *
+from config import ProductionConfig
+
+app=create_app(ProductionConfig)
 
 
-# app=create_app(ProductionConfig)
-
-# with app.app_context():
-# 	user = Admin.query.first()
-# 	print(user.email)
-# 	print(user.password)
-
-
-
-
-
-# import  requests, os
-# TRUSTIFI_URL='https://be.trustifi.com'
-# TRUSTIFI_KEY='fff6a731534c67910cbe6ce95c1843459234f993cac4ef1c'
-# TRUSTIFI_SECRET='3bbec8c80dcfe0bd038a2ba3c3c23c07'
-# url = TRUSTIFI_URL+'/api/i/v1/email'
-
-# payload = "{\"recipients\":[{\"email\":\"sepanouir.maroc@gmail.com\"}],\"title\":\"Sepnaouir\",\"html\":\"Hello mester abderafie chairi\"}"
-# headers = {
-#   'x-trustifi-key': TRUSTIFI_KEY,
-#   'x-trustifi-secret':TRUSTIFI_SECRET,
-#   'Content-Type': 'application/json'
-# }
-
-# response = requests.request('POST', url, headers = headers, data = payload)
-# print(response.json())
-
-
-# import requests
-
-
-# DJANGO_MAILGUN_SERVER_NAME = ''
-# DJANGO_MAILGUN_API_KEY = ''
-
-# recipient_list = ['email@one.com', 'email@two.com']
-
-# for email in recipient_list:
-# 	requests.post(
-#         DJANGO_MAILGUN_SERVER_NAME + "/messages",
-#         auth=("api", DJANGO_MAILGUN_API_KEY),
-#         data={"from": "Us <us@email.com>",
-#               "to": email,
-#               "o:campaign": "", # optional, but it was cool (and creepy) to track opens and clicks.
-#               "subject": "Your subject",
-#               "text": 'Your alt text for non-html clients',
-#               }
-
-# Az = [chr(32+i) for i in range(95)]
-# print(Az)
-# import smtplib
-
-# rec_email ='abderafiechairi02@gmail.com'
-# sender_email = 'sepanouir.maroc@gmail.com'
-# pwd = 'gexxrmihlbqnhxfn'
-# msg ='hello world'
-
-# server = smtplib.SMTP('smtp.gmail.com',587)
-# server.starttls()
-# server.login(sender_email, pwd)
-# print('login seccuful')
-
-
-# server.sendmail(sender_email, rec_email, msg)
-# print('email > ',rec_email)
-
-
-# api_key='57a4d05d-7095-4a6c-8a35-35fd9c4b4d8f'
-# import requests
-
-# email_address = "abderafiechairi01@gmail.com"
-# response = requests.get(
-#     "https://isitarealemail.com/api/email/validate",
-#     params = {'email': email_address},
-#      headers = {'Authorization': "Bearer " + api_key })
-
-# status = response.json()['status']
-# if status == "valid":
-#   print("email is valid")
-# elif status == "invalid":
-#   print("email is invalid")
-# else:
-#   print("email was unknown")
-
-
-# def test():
-# 	# raise Exception("hhhhhhh")
-# 	print('test')
-
-# try:
-# 	test()
-# except Exception as e:
-# 	print(e)
-# else:
-# 	print("else")
-# finally:
-# 	print("finally")
-
-# import datetime
-
-# d=[['id', 'nom', 'prenom', 'date_naissance', 'debut_SEP', 'ntel', 'sexe', 'metier', 'loisirs', 'ville_residence', 'grand_ville', 'medecin_traitant', 'traitement', 'couvMed', 'email', 'auth', 'sep', 'active', 'recovery'], [2, 'Boumart', 'Imane', datetime.date(1989, 8, 10), '2014', '0669211655', 'Féminin', 'Cadre en industrie pharmaceutique', 'Danser ', 'Casablanca ', 'Casablanca', 'Mr Iraqi ', 'Aucun', 'Aucun', 'imaneboumart@hotmail.com', True, True, None, None], [3, 'Ben zairh', 'Mustapha ', datetime.date(1997, 4, 12), '2021', '0766555597', 'Masculin', 'Étudiant ', 'Voyage ', 'Nancy', 'Casablanca', 'Colombo', 'Ocrevus', 'Aucun', 'mustapha.benzairh@gmail.com', True, True, None, None], [5, 'Abouzia', 'Chaimaa', datetime.date(1986, 4, 13), '2021', '0661547080/ 0610101027', 'Féminin', 'Responsable administratif Ste informatique ', 'Sport , voyage, music', 'Rabat', 'Rabat', 'Dr ouafaa Mouti', 'Gilenya', 'CNSS', 'Chaimaa.abouzia@gmail.com', True, True, None, None], [6, 'Miss', 'Sb', datetime.date(1992, 3, 19), '2019', '0662248243', 'Féminin', 'Banquière ', 'Sport ', 'Casablanca ', 'Casablanca', 'Dr Midafi Naila ', 'Aubagio', 'Cmim', 'Sbouiri@outlook.com', True, True, None, None], [7, 'Ballouki', 'Adel', datetime.date(1987, 12, 14), '2011', '0667059351', 'Masculin', 'Ingenieur informatique', 'Musiue natation ', 'Casablanca', 'Casablanca', 'Professeur Slassi', 'Tysabri', 'CNSS', 'Adel.ballouki@gmail.com', True, True, None, None], [8, 'Elb', 'Soumaya', datetime.date(1990, 12, 2), '', '0615062164', 'Féminin', 'supply chain', 'Musique', 'Marseille', '', '', '', 'Aucun', 'Soumaya.elb@hotmail.fr', True, False, None, None], [9, 'Louizi ', 'Asmaa ', datetime.date(1990, 11, 29), '2014', '0691719400', 'Féminin', 'Comptable ', 'Voyage,lecture ', 'Casablanca ', 'Casablanca', 'Docteur Adil Iraqi houssaini ', 'Gilenya', 'CNSS', 'louizi.asmaa@gmail.com', True, True, None, None], [10, 'chairi', 'abderafie', datetime.date(2005, 2, 1), '2006', '0754654665', 'Masculin', 'prof', 'sport', 'fnideq', 'Tétouan', 'Zahraoui', 'Aucun', 'CNSS', 'abderafiechairi02@gmail.com', True, True, None, None], [11, 'Gannoune ', 'Aziza', datetime.date(1986, 8, 24), '2009', '', 'Feminin', 'Ingénieur ', 'Yoga / vélo/ couse', 'Agadir', 'Agadir', 'Pr Slassi', 'Autre', 'CFE', 'Aziza.gannoune@gmail.com', True, True, None, None], [12, 'Zian', 'Yousra', datetime.date(1992, 4, 20), '2019', '0666950099', 'Féminin', 'Ingénieur industriel', 'No longer know', 'Tetouan', 'Tétouan', 'Mrani Alia', 'Betaferon', 'Mutuelle privée', 'Yousrazian@gmail.com', False, True, None, None], [13, 'Mokaddem', 'Sofia', datetime.date(1988, 6, 7), '2015', '0620767143', 'Féminin', 'Cadre', 'Tout et rien', 'Casablanca', 'Casablanca', 'Dr naila midafi', 'Aucun', 'Aucun', 'Sofia.mokaddem@gmail.com', True, True, None, None], [14, 'Touahar ', 'Asmae', datetime.date(1991, 5, 14), '2008', '0697825216', 'Féminin', 'Dentiste ', 'Yoga ,coloriage, lecture ', 'Sidi kacem', 'Sidi Kacem', 'Aucun ', 'Aucun', 'CNOPS', 'Asmaetouahar1@gmail.com', True, True, None, None], [15, 'Benriyene', 'Salwa', datetime.date(1986, 9, 11), '2003', '0664887575', 'Féminin', "Ingénieur d'état en informatique", 'Randonnées, voyages', 'Casablanca', 'Casablanca', 'Dr slassi', 'Avonex', 'Atlanta sanad', 'Salwabenriyene@gmail.com', True, True, None, None], [16, 'Houdou', 'Tarik', datetime.date(1981, 6, 13), '2008', '0661858353', 'Masculin', 'Coordinateur', 'La marche', 'Casablanca', 'Casablanca', 'Mouti', 'Avonex', 'CNSS', 'Tarikhoudou@gmail.com', True, True, None, None], [17, 'Korich', 'Mohamed nazih', datetime.date(1991, 12, 22), '2018', '0671245494', 'Masculin', 'Employé ', 'Football', 'Tanger', 'Tanger', 'Docteur fadil hicham', 'Tysabri', 'CNSS', 'Korichnazih@gmail.com', True, True, None, None], [18, 'Bahta ', 'Youssef ', datetime.date(1994, 7, 21), '2013', '0706853737', 'Masculin', 'Commercial ', 'Cinéphile ', 'Casablanca ', 'Casablanca', 'Slassi ', 'Ocrevus', 'CNSS', 'youssefbahta@gmail.com', True, True, None, None], [19, 'Mastour ', 'Abdelmajid ', datetime.date(1990, 6, 24), '2013', '0614883359', 'Masculin', 'Banquier', 'Divers', 'Casablanca ', 'Casablanca', 'Dr. Midafi naila', 'Aucun', 'Mutuelle privée', 'Abdelmajid.mastour@hotmail.com', True, True, None, None], [20, 'YAALAOUI ', 'Fouad', datetime.date(1991, 10, 13), '2018', '0677010784', 'Masculin', 'Sans', 'Pêche', 'Sidi rahal', 'Casablanca', 'Dr bouchra moutawakil', 'Gilenya', 'CNSS', 'Yaalaoui.fouad07@gmail.com', True, True, None, None], [21, 'Baïna', 'Mouna', datetime.date(1985, 11, 21), '2018', '0670287054', 'Féminin', 'Femme au foyer', 'Natation', 'Tamesna', 'Rabat', 'Benaaboud bouchra', 'Rebif', 'CNOPS', 'mounabaina@gmail.com', True, True, None, None], [22, 'Cherkaoui', 'Oumaima', datetime.date(1980, 1, 5), '2011', '0600636021', 'Féminin', 'Mère au foyer', 'Sport', 'Mohammedia ', 'Mohammédia', 'Iraqui Houssaini Adil', 'Ocrevus', 'CNOPS', 'oumaimac80@gmail.com', True, True, None, None], [23, 'Nejjar', 'Oussama', datetime.date(1974, 12, 31), '1975', '0664344344', 'Masculin', 'Employé de banque', '.', 'Casablanca', 'Casablanca', 'Dr Adil laraqui', 'Ocrevus', 'Cmim', 'onejjar@gmail.com', True, True, None, None], [24, 'Mouti', 'Ouafa', datetime.date(1972, 4, 10), '', '0667225471', 'Féminin', 'Médecin neurologue', 'Sport', 'Rabat', '', '', '', 'Aucun', 'ouafamouti@yahoo.fr', False, False, None, None], [25, 'Faroini', 'Wafaa', datetime.date(1995, 5, 18), '2015', '0607639319', 'Féminin', 'Ingenieure genie civil ', 'Sport', 'Casablanca', 'Casablanca', 'Dr. Ilham Slassi', 'Ocrevus', 'CNSS', 'wafaa.faroini1@gmail.com', True, True, None, None], [26, 'chairi', 'abderafie', datetime.date(2002, 2, 1), '2002', '076206106654', 'Masculin', 'Prof', 'Sport', 'Fnideq', 'Rabat', 'Zahraoui', 'Aucun', 'CNSS', 'testToken@gmail.com', True, False, None, None], [27, 'chairi', 'abderafie', datetime.date(2002, 2, 1), '2002', '076206106654', 'Masculin', 'Prof', 'Sport', 'Fnideq', 'Rabat', 'Zahraoui', 'Aucun', 'CNSS', 'testTokenLocalHost@gmail.com', True, False, False, '4BRNBK'], [29, 'chairi', 'abderafie', datetime.date(2002, 1, 1), '', '0765412313', 'Masculin', 'hello', 'world', 'Rabat', '', '', '', 'Aucun', 'Soumiameniam2@gmail.com', False, False, False, 'RFKIG5']]
-# dd=[[str(i) for i in row] for row in d ]
-# print('\n'.join([','.join(i) for i in dd]))
-# d='Tetouan'
-# print(''.join([i if d!='é' else 'e' for i in d]))
-
-
-# T=[4,1,5,7,8,9,3]
-
-
-
-# print(T.insert(0, 0))
-# print(T) 
-
-
-# from Sep import *
-# from config import ProductionConfig
-# app =create_app(ProductionConfig)
-# print()
-# with app.app_context():
-# 	users = User.query.all()
-# 	for user in users:
-# 		user.active=True
-# 		user.recovery=generate()
-# 	db.session.commit()
-# 	print('done')
-
-
-
-# import datetime
-
-# print(datetime.deltatime())
-
+with app.app_context():
+	# a=User.query.all()
+	# req = '['
+	# for i in a:
+	# 	req+=f"""User(public_id="{i.public_id}",nom ='{i.nom}',prenom ='{i.prenom}',date_naissance ='{i.date_naissance}',debut_SEP ='{i.debut_SEP}',ntel ='{i.ntel}',sexe ='{i.sexe}',metier ="{i.metier}",loisirs ='{i.loisirs}',ville_residence ='{i.ville_residence}',grand_ville ='{i.grand_ville}',medecin_traitant ='{i.medecin_traitant}',traitement ='{i.traitement}',couvMed ='{i.couvMed}',email ='{i.email}',password ='{i.password}',auth ={i.auth},sep ={i.sep},viewed ={i.viewed},active ={i.active},recovery ='{i.recovery}'),\n"""
+	# req+=']'
+	# print(req)
+	users = [User(public_id="6678b87a-207f-11ed-856c-1aa12d4e7a4f",nom ='Abouzia',prenom ='Chaimaa',date_naissance ='1986-04-13',debut_SEP ='2021',ntel ='0661547080/ 0610101027',sexe ='Féminin',metier ="Responsable administratif Ste informatique ",loisirs ='Sport , voyage, music',ville_residence ='Rabat',grand_ville ='Rabat',medecin_traitant ='Dr ouafaa Mouti',traitement ='Gilenya',couvMed ='CNSS',email ='Chaimaa.abouzia@gmail.com',password ='13@chaimaa',auth =True,sep =True,viewed =True,active =True,recovery ='V8S1VS'),
+User(public_id="52f57e62-2090-11ed-856c-1aa12d4e7a4f",nom ='Miss',prenom ='Sb',date_naissance ='1992-03-19',debut_SEP ='2019',ntel ='0662248243',sexe ='Féminin',metier ="Banquière ",loisirs ='Sport ',ville_residence ='Casablanca ',grand_ville ='Casablanca',medecin_traitant ='Dr Midafi Naila ',traitement ='Aubagio',couvMed ='Cmim',email ='Sbouiri@outlook.com',password ='DAvidson1992',auth =True,sep =True,viewed =None,active =True,recovery ='K21V14'),
+User(public_id="6209d9cc-2075-11ed-a9d0-1aa12d4e7a4f",nom ='Boumart',prenom ='Imane',date_naissance ='1989-08-10',debut_SEP ='2014',ntel ='0669211655',sexe ='Féminin',metier ="Cadre en industrie pharmaceutique",loisirs ='Danser ',ville_residence ='Casablanca ',grand_ville ='Casablanca',medecin_traitant ='Mr Iraqi ',traitement ='Aucun',couvMed ='Aucun',email ='imaneboumart@hotmail.com',password ='baculovirus',auth =True,sep =True,viewed =True,active =True,recovery ='8TTKNV'),
+User(public_id="836b3112-2078-11ed-856c-1aa12d4e7a4f",nom ='Ben zairh',prenom ='Mustapha ',date_naissance ='1997-04-12',debut_SEP ='2021',ntel ='0766555597',sexe ='Masculin',metier ="Étudiant ",loisirs ='Voyage ',ville_residence ='Nancy',grand_ville ='Casablanca',medecin_traitant ='Colombo',traitement ='Ocrevus',couvMed ='Aucun',email ='mustapha.benzairh@gmail.com',password ='stoof_123',auth =True,sep =True,viewed =None,active =True,recovery ='4U9GHC'),
+User(public_id="637f4646-2090-11ed-856c-1aa12d4e7a4f",nom ='Ballouki',prenom ='Adel',date_naissance ='1987-12-14',debut_SEP ='2011',ntel ='0667059351',sexe ='Masculin',metier ="Ingenieur informatique",loisirs ='Musiue natation ',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Professeur Slassi',traitement ='Tysabri',couvMed ='CNSS',email ='Adel.ballouki@gmail.com',password ='Adillevis1*',auth =True,sep =True,viewed =True,active =True,recovery ='I6QXFE'),
+User(public_id="dbfb3524-2092-11ed-a9d0-1aa12d4e7a4f",nom ='Elb',prenom ='Soumaya',date_naissance ='1990-12-02',debut_SEP ='',ntel ='0615062164',sexe ='Féminin',metier ="supply chain",loisirs ='Musique',ville_residence ='Marseille',grand_ville ='',medecin_traitant ='',traitement ='',couvMed ='Aucun',email ='Soumaya.elb@hotmail.fr',password ='Maroc2020',auth =True,sep =False,viewed =True,active =True,recovery ='GJ81FX'),
+User(public_id="11332f30-20ac-11ed-b6e7-5a5f4e82a263",nom ='Louizi ',prenom ='Asmaa ',date_naissance ='1990-11-29',debut_SEP ='2014',ntel ='0691719400',sexe ='Féminin',metier ="Comptable ",loisirs ='Voyage,lecture ',ville_residence ='Casablanca ',grand_ville ='Casablanca',medecin_traitant ='Docteur Adil Iraqi houssaini ',traitement ='Gilenya',couvMed ='CNSS',email ='louizi.asmaa@gmail.com',password ='29RN3a82',auth =True,sep =True,viewed =True,active =True,recovery ='SSWYJ0'),
+User(public_id="367d8396-216d-11ed-816a-a68d2ec5a5f0",nom ='Zian',prenom ='Yousra',date_naissance ='1992-04-20',debut_SEP ='2019',ntel ='0666950099',sexe ='Féminin',metier ="Ingénieur industriel",loisirs ='No longer know',ville_residence ='Tetouan',grand_ville ='Tétouan',medecin_traitant ='Mrani Alia',traitement ='Betaferon',couvMed ='Mutuelle privée',email ='Yousrazian@gmail.com',password ='ibrahim2017',auth =False,sep =True,viewed =True,active =True,recovery ='TN7S1J'),
+User(public_id="594c7d4e-2174-11ed-816a-a68d2ec5a5f0",nom ='Mokaddem',prenom ='Sofia',date_naissance ='1988-06-07',debut_SEP ='2015',ntel ='0620767143',sexe ='Féminin',metier ="Cadre",loisirs ='Tout et rien',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Dr naila midafi',traitement ='Aucun',couvMed ='Aucun',email ='Sofia.mokaddem@gmail.com',password ='bidou33.m',auth =True,sep =True,viewed =True,active =True,recovery ='R3Q38O'),
+User(public_id="db9abcfe-2177-11ed-92f8-a68d2ec5a5f0",nom ='Houdou',prenom ='Tarik',date_naissance ='1981-06-13',debut_SEP ='2008',ntel ='0661858353',sexe ='Masculin',metier ="Coordinateur",loisirs ='La marche',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Mouti',traitement ='Avonex',couvMed ='CNSS',email ='Tarikhoudou@gmail.com',password ='secommeca22',auth =True,sep =True,viewed =True,active =True,recovery ='4H5X6K'),
+User(public_id="91948394-2175-11ed-816a-a68d2ec5a5f0",nom ='Touahar ',prenom ='Asmae',date_naissance ='1991-05-14',debut_SEP ='2008',ntel ='0697825216',sexe ='Féminin',metier ="Dentiste ",loisirs ='Yoga ,coloriage, lecture ',ville_residence ='Sidi kacem',grand_ville ='Sidi Kacem',medecin_traitant ='Aucun ',traitement ='Aucun',couvMed ='CNOPS',email ='Asmaetouahar1@gmail.com',password ='asmaeasmae31',auth =True,sep =True,viewed =None,active =True,recovery ='NLP00M'),
+User(public_id="d5144226-2175-11ed-816a-a68d2ec5a5f0",nom ='Benriyene',prenom ='Salwa',date_naissance ='1986-09-11',debut_SEP ='2003',ntel ='0664887575',sexe ='Féminin',metier ="Ingénieur d'état en informatique",loisirs ='Randonnées, voyages',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Dr slassi',traitement ='Avonex',couvMed ='Atlanta sanad',email ='Salwabenriyene@gmail.com',password ='salwa2026',auth =True,sep =True,viewed =True,active =True,recovery ='5V5YLO'),
+User(public_id="5e8a7cc0-2179-11ed-816a-a68d2ec5a5f0",nom ='Korich',prenom ='Mohamed nazih',date_naissance ='1991-12-22',debut_SEP ='2018',ntel ='0671245494',sexe ='Masculin',metier ="Employé ",loisirs ='Football',ville_residence ='Tanger',grand_ville ='Tanger',medecin_traitant ='Docteur fadil hicham',traitement ='Tysabri',couvMed ='CNSS',email ='Korichnazih@gmail.com',password ='Nazih123',auth =True,sep =True,viewed =True,active =True,recovery ='GW3ICH'),
+User(public_id="0920f04c-217a-11ed-816a-a68d2ec5a5f0",nom ='Bahta ',prenom ='Youssef ',date_naissance ='1994-07-21',debut_SEP ='2013',ntel ='0706853737',sexe ='Masculin',metier ="Commercial ",loisirs ='Cinéphile ',ville_residence ='Casablanca ',grand_ville ='Casablanca',medecin_traitant ='Slassi ',traitement ='Ocrevus',couvMed ='CNSS',email ='youssefbahta@gmail.com',password ='youssef1994',auth =True,sep =True,viewed =None,active =True,recovery ='HAFDY7'),
+User(public_id="1eb6c170-217a-11ed-92f8-a68d2ec5a5f0",nom ='Mastour ',prenom ='Abdelmajid ',date_naissance ='1990-06-24',debut_SEP ='2013',ntel ='0614883359',sexe ='Masculin',metier ="Banquier",loisirs ='Divers',ville_residence ='Casablanca ',grand_ville ='Casablanca',medecin_traitant ='Dr. Midafi naila',traitement ='Aucun',couvMed ='Mutuelle privée',email ='Abdelmajid.mastour@hotmail.com',password ='Majido5971130',auth =True,sep =True,viewed =True,active =True,recovery ='D47PXA'),
+User(public_id="a0136700-217a-11ed-92f8-a68d2ec5a5f0",nom ='YAALAOUI ',prenom ='Fouad',date_naissance ='1991-10-13',debut_SEP ='2018',ntel ='0677010784',sexe ='Masculin',metier ="Sans",loisirs ='Pêche',ville_residence ='Sidi rahal',grand_ville ='Casablanca',medecin_traitant ='Dr bouchra moutawakil',traitement ='Gilenya',couvMed ='CNSS',email ='Yaalaoui.fouad07@gmail.com',password ='Sepanouir07',auth =True,sep =True,viewed =True,active =True,recovery ='2R3N0F'),
+User(public_id="c3157e62-217c-11ed-92f8-a68d2ec5a5f0",nom ='Baïna',prenom ='Mouna',date_naissance ='1985-11-21',debut_SEP ='2018',ntel ='0670287054',sexe ='Féminin',metier ="Femme au foyer",loisirs ='Natation',ville_residence ='Tamesna',grand_ville ='Rabat',medecin_traitant ='Benaaboud bouchra',traitement ='Rebif',couvMed ='CNOPS',email ='mounabaina@gmail.com',password ='malaktahaziad3',auth =True,sep =True,viewed =True,active =True,recovery ='QLTTUL'),
+User(public_id="825f37fc-2184-11ed-92f8-a68d2ec5a5f0",nom ='Cherkaoui',prenom ='Oumaima',date_naissance ='1980-01-05',debut_SEP ='2011',ntel ='0600636021',sexe ='Féminin',metier ="Mère au foyer",loisirs ='Sport',ville_residence ='Mohammedia ',grand_ville ='Mohammédia',medecin_traitant ='Iraqui Houssaini Adil',traitement ='Ocrevus',couvMed ='CNOPS',email ='oumaimac80@gmail.com',password ='kamilina80',auth =True,sep =True,viewed =True,active =True,recovery ='GMTPNF'),
+User(public_id="06f6ec5a-218d-11ed-8fa2-ee6f8954e473",nom ='Nejjar',prenom ='Oussama',date_naissance ='1974-12-31',debut_SEP ='1975',ntel ='0664344344',sexe ='Masculin',metier ="Employé de banque",loisirs ='.',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Dr Adil laraqui',traitement ='Ocrevus',couvMed ='Cmim',email ='onejjar@gmail.com',password ='Raja491:',auth =True,sep =True,viewed =True,active =True,recovery ='F2IR3J'),
+User(public_id="f1c214d0-2192-11ed-95a8-ee6f8954e473",nom ='Mouti',prenom ='Ouafa',date_naissance ='1972-04-10',debut_SEP ='',ntel ='0667225471',sexe ='Féminin',metier ="Médecin neurologue",loisirs ='Sport',ville_residence ='Rabat',grand_ville ='',medecin_traitant ='',traitement ='',couvMed ='Aucun',email ='ouafamouti@yahoo.fr',password ='Avril1972',auth =False,sep =False,viewed =None,active =True,recovery ='1HE041'),
+User(public_id="c7698dae-2196-11ed-95ec-32c2414907b7",nom ='Faroini',prenom ='Wafaa',date_naissance ='1995-05-18',debut_SEP ='2015',ntel ='0607639319',sexe ='Féminin',metier ="Ingenieure genie civil ",loisirs ='Sport',ville_residence ='Casablanca',grand_ville ='Casablanca',medecin_traitant ='Dr. Ilham Slassi',traitement ='Ocrevus',couvMed ='CNSS',email ='wafaa.faroini1@gmail.com',password ='casa101010',auth =True,sep =True,viewed =True,active =True,recovery ='MQ1LV8'),
+User(public_id="5ba1f9ec-232d-11ed-bc4c-1ede2e09bfe6",nom ='Gannoune',prenom ='Aziza',date_naissance ='1986-08-24',debut_SEP ='',ntel ='',sexe ='Féminin',metier ="Ingénieur ",loisirs ='Yoga / Vélo ',ville_residence ='Casablanca',grand_ville ='',medecin_traitant ='',traitement ='',couvMed ='',email ='Aziza.gannoune@gmail.com',password ='Azizag86',auth =False,sep =False,viewed =None,active =True,recovery ='FHR6CT'),
+User(public_id="159bf19c-237c-11ed-8d12-16ee9eec16fa",nom ='Wahbi mernissi ',prenom ='Mehdi ',date_naissance ='1986-07-09',debut_SEP ='',ntel ='',sexe ='Masculin',metier ="Ingénieur ",loisirs ='Foot',ville_residence ='Casa',grand_ville ='',medecin_traitant ='',traitement ='',couvMed ='Aucun',email ='Wahbi.mehdi@gmail.com',password ='123456789M',auth =False,sep =False,viewed =True,active =False,recovery ='MPW364'),
+User(public_id="51e084e2-23f4-11ed-a9d1-368288137520",nom ='Chairi',prenom ='Abderafie',date_naissance ='2002-01-01',debut_SEP ='',ntel ='',sexe ='Masculin',metier ="Prof",loisirs ='Sport',ville_residence ='Fnideq',grand_ville ='',medecin_traitant ='',traitement ='',couvMed ='Aucun',email ='abderafiechairi02@gmail.com',password ='123123123',auth =False,sep =False,viewed =True,active =True,recovery ='914CVB')
+]
+	i=users[0]
+	print(i)
+	# db.session.add(i)
+	# for i in users:
+	# 	db.session.add(i)
+	# db.session.commit()
+	print('done')

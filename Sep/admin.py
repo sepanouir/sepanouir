@@ -21,10 +21,10 @@ def replace_(s):
 	return ss 
 
 # and request.endpoint != 'login'
-@admin.before_request
-def before_request():
-    if 'admin' not in session :
-        return redirect(url_for('api.login'))
+# @admin.before_request
+# def before_request():
+#     if 'admin' not in session :
+#         return redirect(url_for('api.login'))
 
 @admin.route('/table/<url>/',methods=['GET'])
 def tabls(url):
