@@ -133,7 +133,8 @@ class Activity(db.Model,Serializer):
     
     def getAttend(self):
         return len(Activity_user.query.filter_by(activity_id=self.id,state=attend).all())
-
+    def isActif(self):
+        return len(Activity_user.query.filter_by(activity_id=self.id,state=actif).all())<self.members
     def getsubmembers(self):
         if self.getActif()==self.members:
             if self.getAttend() > 0 :
@@ -177,7 +178,7 @@ class Activity_user(db.Model):
 
 
     def len_activity(self):
-        l=activity_user.query.filter_by(activity_id=self.activity_id,state=self.state).all()
+        l=Activity_user.query.filter_by(activity_id=self.activity_id,state=self.state).all()
         return len(l)
 
     def getRank(self):

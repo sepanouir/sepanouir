@@ -146,7 +146,16 @@ def submit_att():
 	db.session.commit()
 	return jsonify({'message' : 'New activite_user_attend created'})
 
-
+@api.route('/test')
+def test():
+	# Le dimanche du bien-être
+	acts = Activity.query.all()
+	act=acts[1]
+	print(act.name)
+	Aus = Activity_user.query.filter_by(activity_id=act.id,state=actif).all()
+	for i in Aus:
+		print(i.rank,i.state,User.query.filter_by(id=i.user_id).first().email)
+	return jsonify({'message':True})
 
 @api.route('/submit_act',methods=['POST'])
 def submit_act():
@@ -156,7 +165,10 @@ def submit_act():
 	if Activity_user.query.filter_by(user_id=user_id,activity_id=ac.id,state=actif).all():
 		return jsonify({"message":"activite_user_actif has been exist"})
 	au=Activity_user(user_id=user_id,activity_id=ac.id,state=actif)
-	if au.rank >ac.members :
+	print('au.rank  :',au.rank)
+	print('ac.members :',ac.members)
+	print('au.len_activity() :',au.len_activity())
+	if au.len_activity() >=ac.members :
 		au=Activity_user(user_id=user_id,activity_id=ac.id,state=attend)
 
 	db.session.add(au)
@@ -228,7 +240,12 @@ def all_act_pic():
 
 def date(date,time):
 	return datetime.datetime(year=date.year, month=date.month, day=date.day,hour=time.hour,minute=time.minute)
-
+def str_min(min):
+	print(str(min))
+	if len(str(min))==1:
+		return str(min)+'0' if min > 10 else '0'+str(min)
+		
+	return str(min)
 @api.route('/all_act/',methods=['GET'])
 def all_acts():
 	current_time = datetime.datetime.utcnow()
@@ -238,19 +255,20 @@ def all_acts():
 	# 	print(date(i.date,i.heure)<current_time+datetime.timedelta(days=1))
 	acts = [i for i in Activity.query.all() if date(i.date,i.heure) > current_time]
 	# acts = Activity.query.all()
+	print("het acts")
 	acts.sort(key=lambda ac : ac.date)
 	glo = [[ 
 		{
 			'public_id':str(act.public_id),
 			'name':act.name,
 			'date':conv(act.date),
-			'time':str(act.heure.hour)+':'+str(act.heure.minute),
+			'time':str_min(act.heure.hour)+':'+str_min(act.heure.minute),
 			'members':act.members,
 			'submembers':act.getsubmembers(),
 			'details':act.details,
 			'city':act.city,
 			'sep':act.sep,
-			'state':attend if act.getAttend() > 0 else actif,
+			'state':actif if act.isActif() else attend,
 			'submit':False,
 			'can_submit':date(act.date,act.heure) > current_time+datetime.timedelta(days=1)
 		}
