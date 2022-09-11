@@ -251,7 +251,7 @@ def str_min(min):
 @api.route('/actUsers/<activity_id>',methods=['GET'])
 def actUsers(activity_id):
 	act = Activity.query.filter_by(public_id=activity_id).first()
-	act_id = actif.id
+	act_id = act.id
 	active_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=actif).all()]
 	attend_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=attend).all()]
 	return jsonify({
