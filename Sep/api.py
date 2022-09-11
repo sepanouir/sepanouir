@@ -248,7 +248,7 @@ def str_min(min):
 	return str(min)
 
 
-@api.route('/actUsers/<activty_id>',methods=['GET'])
+@api.route('/actUsers/<activity_id>',methods=['GET'])
 def actUsers(activity_id):
 	act = Activity.query.filter_by(public_id=activity_id).first()
 	act_id = actif.id
