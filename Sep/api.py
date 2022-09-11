@@ -246,6 +246,25 @@ def str_min(min):
 		return str(min)+'0' if min > 10 else '0'+str(min)
 		
 	return str(min)
+
+
+@api.route('/actUsers/<activty_id>',methods=['GET'])
+def actUsers(activity_id):
+	act = Activity.query.filter_by(public_id=activity_id).first()
+	act_id = actif.id
+	active_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=actif).all()]
+	attend_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=attend).all()]
+	return jsonify({
+		"actif":{
+			'length':len(active_users)+"/"+act.members,
+			'data':[user.prenom+" "+user.nom for user in active_users]
+		},
+		"attend":{
+			'length':len(attend_users),
+			'data':[user.prenom+" "+user.nom for user in attend_users]
+		},
+	})
+
 @api.route('/all_act/',methods=['GET'])
 def all_acts():
 	current_time = datetime.datetime.utcnow()
@@ -365,14 +384,14 @@ def all_med():
 		} 
 		for i in meds])
 
-@api.route('/get_item/<name>',methods=['GET'])
-def get_item(name):
-	id_=Item.query.filter_by(name=name).first().id
-	# detail=Detail.query.filter_by(item_id=id_).first()
-	return jsonify({
-		'id':item.id,
-		'details':item.details
-		})
+# @api.route('/get_item/<name>',methods=['GET'])
+# def get_item(name):
+# 	id_=Item.query.filter_by(name=name).first().id
+# 	# detail=Detail.query.filter_by(item_id=id_).first()
+# 	return jsonify({
+# 		'id':item.id,
+# 		'details':item.details
+# 		})
 @api.route('/get_section/<name>',methods=['GET'])
 def get_section(name):
 	id_=Section.query.filter_by(name=name).first().id
