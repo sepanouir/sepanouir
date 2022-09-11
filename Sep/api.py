@@ -256,7 +256,7 @@ def actUsers(activity_id):
 	attend_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=attend).all()]
 	return jsonify({
 		"actif":{
-			'length':len(active_users)+"/"+act.members,
+			'length':str(len(active_users))+"/"+act.members,
 			'data':[user.prenom+" "+user.nom for user in active_users]
 		},
 		"attend":{
