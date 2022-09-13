@@ -341,7 +341,7 @@ def my_act(user_id):
 			'date':conv(act.date),
 			'time':str(act.heure.hour)+':'+str(act.heure.minute),
 			'members':act.members,
-			'submembers':act.getsubmembers(),
+			'submembers':act.getsubmembers1(user_id),
 			'details':act.details,
 			'city':act.city,
 			'state':act.getStatus(user.id),

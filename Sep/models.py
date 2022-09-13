@@ -141,6 +141,15 @@ class Activity(db.Model,Serializer):
         #         return self.getAttend()
         return self.getActif()
 
+    def getsubmembers1(self,user_id):
+        if self.getActif()==self.members:
+            if self.getAttend() > 0 :
+                acts = [i.user_id for i in Activity_user.query.filter_by(activity_id=self.id,state=attend).all()]
+                print(acts)
+                user_id = User.getUser(user_id).id
+                return acts.index(user_id)+1
+        return self.getActif()
+
     def getSubmit(self,user_id):
         return len(Activity_user.query.filter_by(user_id=user_id,activity_id=self.id).all())==1
     def getStatus(self,user_id):
