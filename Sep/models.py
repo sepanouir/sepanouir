@@ -136,9 +136,9 @@ class Activity(db.Model,Serializer):
     def isActif(self):
         return len(Activity_user.query.filter_by(activity_id=self.id,state=actif).all())<self.members
     def getsubmembers(self):
-        if self.getActif()==self.members:
-            if self.getAttend() > 0 :
-                return self.getAttend()
+        # if self.getActif()==self.members:
+        #     if self.getAttend() > 0 :
+        #         return self.getAttend()
         return self.getActif()
 
     def getSubmit(self,user_id):

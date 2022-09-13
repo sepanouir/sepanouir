@@ -252,8 +252,8 @@ def str_min(min):
 def actUsers(activity_id):
 	act = Activity.query.filter_by(public_id=activity_id).first()
 	act_id = act.id
-	active_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=actif).all()]
-	attend_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=attend).all()]
+	active_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=actif).order_by(Activity_user.rank).all()]
+	attend_users = [User.query.filter_by(id=i.user_id).first() for i in Activity_user.query.filter_by(activity_id=act_id,state=attend).order_by(Activity_user.rank).all()]
 	return jsonify({
 		"actif":{
 			'length':str(len(active_users))+"/"+str(act.members),
@@ -307,7 +307,7 @@ def all_act(user_id):
 			'public_id':str(act.public_id),
 			'name':act.name,
 			'date':conv(act.date),
-			'time':str(act.heure.hour)+':'+str(act.heure.minute),
+			'time':str_min(act.heure.hour)+':'+str_min(act.heure.minute),
 			'members':act.members,
 			'submembers':act.getsubmembers(),
 			'details':act.details,
