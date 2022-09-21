@@ -35,7 +35,6 @@ def create(app):
 			Item(name='Genèse de SEPanouir',details='',section_id=Section.getSection('Presentation_sep').id),
 			Item(name='Mot du président',details='',section_id=Section.getSection('Presentation_sep').id),
 			Item(name='Rejoindre SEPanouir ',details='',section_id=Section.getSection('Presentation_sep').id),
-			Item(name='Vidéos des membres de l’association ',details='',section_id=Section.getSection('Presentation_sep').id),
 
 	]
 		db.session.add_all(Items)

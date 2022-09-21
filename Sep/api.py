@@ -395,7 +395,7 @@ def all_med():
 @api.route('/get_section/<name>',methods=['GET'])
 def get_section(name):
 	id_=Section.query.filter_by(name=name).first().id
-	items=Item.query.filter_by(section_id=id_).all()
+	items=Item.query.filter_by(section_id=id_).order_by(Item.id).all()
 	return jsonify([{
 			'id':item.id,
 			'name':item.name,
